@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet id="init" author="me">
+        <createSequence sequenceName="CUSTOMER_SEQ"
+                        startValue="1" incrementBy="1"/>
+
+        <createTable tableName="CUSTOMER">
+            <column name="ID" type="NUMBER(22,0)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_CUSTOMER"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(200 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="TEAM_SEQ"
+                        startValue="1" incrementBy="1"/>
+
+        <createTable tableName="TEAM">
+            <column name="ID" type="NUMBER(22,0)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TEAM"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(200 CHAR)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createSequence sequenceName="BOOKING_SEQ"
+                        startValue="1" incrementBy="1"/>
+
+        <createTable tableName="TEAM_CUSTOMER">
+            <column name="TEAM_ID" type="NUMBER(22,0)">
+                <constraints nullable="false"
+                             foreignKeyName="FK_CUSTOMER_TEAM" referencedTableName="TEAM" referencedColumnNames="ID"/>
+            </column>
+            <column name="CUSTOMER_ID" type="NUMBER(22,0)">
+                <constraints nullable="false"
+                             foreignKeyName="FK_TEAM_CUSTOMER" referencedTableName="CUSTOMER"
+                             referencedColumnNames="ID"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey tableName="TEAM_CUSTOMER" columnNames="TEAM_ID,CUSTOMER_ID"/>
+
+        <createTable tableName="BOOKING">
+            <column name="ID" type="NUMBER(22,0)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_BOOKING"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR2(200 CHAR)"/>
+            <column name="CUSTOMER_ID" type="NUMBER(22,0)">
+                <constraints nullable="false"
+                             foreignKeyName="FK_BOOKING_CUSTOMER" referencedTableName="CUSTOMER"
+                             referencedColumnNames="ID"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
